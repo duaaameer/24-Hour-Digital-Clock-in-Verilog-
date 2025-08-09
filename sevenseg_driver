@@ -1,0 +1,82 @@
+`timescale 1ns / 1ps
+
+module sevenseg_driver(
+    input clk,
+    input clr,
+    input [3:0] in1, // ones place of seconds
+    input [3:0] in2, // tens place of seconds
+    input [3:0] in3, // ones place of minutes
+    input [3:0] in4, // tens place of minutes
+    input [3:0] in5, // ones place of hours
+    input [3:0] in6, // tens place of hours
+    output reg [6:0] seg,
+    output reg [5:0] an // 6 anodes for six digits
+);
+    wire [6:0] seg1, seg2, seg3, seg4, seg5, seg6;
+    reg [12:0] segclk; // for turning segment display one by one
+    // Define states for 6 digits
+    localparam SECONDS_ONES = 3'b000,
+               SECONDS_TENS = 3'b001,
+               MINUTES_ONES = 3'b010,
+               MINUTES_TENS = 3'b011,
+               HOURS_ONES   = 3'b100,
+               HOURS_TENS   = 3'b101;
+    reg [2:0] state = SECONDS_ONES; // Expanded state to 3 bits
+    // Increment clock divider
+    always @(posedge clk)
+        segclk <= segclk + 1'b1; // Counter goes up by 1
+    always @(posedge segclk[12] or posedge clr) begin 
+        if (clr == 1) begin
+            seg <= 7'b0000000;
+            an <= 6'b000000;
+            state <= SECONDS_ONES;
+        end else begin
+            case (state)
+                SECONDS_ONES: begin
+                    seg <= seg1;
+                    an <= 6'b111110; // Activate only seconds' ones place
+                    state <= SECONDS_TENS;
+                end
+                
+                SECONDS_TENS: begin
+                    seg <= seg2;
+                    an <= 6'b111101; // Activate only seconds' tens place
+                    state <= MINUTES_ONES;
+                end
+                
+                MINUTES_ONES: begin
+                    seg <= seg3;
+                    an <= 6'b111011; // Activate only minutes' ones place
+                    state <= MINUTES_TENS;
+                end
+                
+                MINUTES_TENS: begin
+                    seg <= seg4;
+                    an <= 6'b110111; // Activate only minutes' tens place
+                    state <= HOURS_ONES;
+                end
+                
+                HOURS_ONES: begin
+                    seg <= seg5;
+                    an <= 6'b101111; // Activate only hours' ones place
+                    state <= HOURS_TENS;
+                end
+                
+                HOURS_TENS: begin
+                    seg <= seg6;
+                    an <= 6'b011111; // Activate only hours' tens place
+                    state <= SECONDS_ONES;
+                end
+            endcase
+        end
+end
+
+    // Decoder for 7-segment display
+    Decoder_7_segment disp1(in1, seg1);
+    Decoder_7_segment disp2(in2, seg2);
+    Decoder_7_segment disp3(in3, seg3);
+    Decoder_7_segment disp4(in4, seg4);
+    Decoder_7_segment disp5(in5, seg5);
+    Decoder_7_segment disp6(in6, seg6);
+
+endmodule
