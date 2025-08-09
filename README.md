@@ -13,13 +13,15 @@ Key Features
 * Reset & Time-Setting Capability (optional push-button control)
 * 7-Segment Display or UART Output (configurable)
 
-Development Tools
+* Development Tools
 HDL: Verilog
 
-FPGA Boards: Xilinx Nexys 4DDR
+* FPGA Boards: Xilinx Nexys 4DDR
 
-Simulation: Vivado
+* Simulation: Vivado
 
-Synthesis & Implementation: Xilinx Vivado 
+* Synthesis & Implementation: Xilinx Vivado 
 
-Testing: Verilog testbench with simulated clock
+* Testing: Verilog testbench with simulated clock
+  # Note
+  The repository contains seperate file for all the modules sevenseg_driver, Digitalclock, debounce and finallt Top Module. You may copy the code to run see the functionality. 
