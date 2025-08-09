@@ -1,5 +1,5 @@
 # 24-Hour-Digital-Clock-in-Verilog-
-This project implements a 24-hour digital clock using Verilog HDL, designed to run on an FPGA board. The clock displays hours (00-23), minutes (00-59), and seconds (00-59) on a 7-segment display or via a serial monitor. It includes features like:
+This project implements a 24-hour digital clock using Verilog HDL, designed to run on an FPGA board. The clock displays hours (00-23), minutes (00-59), and seconds (00-59) on a 7-segment display. It includes features like:
 
 * Timekeeping with 1Hz precision
 
@@ -24,4 +24,4 @@ HDL: Verilog
 
 * Testing: Verilog testbench with simulated clock
   # Note
-  The repository contains seperate file for all the modules sevenseg_driver, Digitalclock, debounce and finallt Top Module. You may copy the code to run see the functionality. 
+  The repository contains seperate file for all the modules sevenseg_driver, Digitalclock, debounce and finally Top Module. You may copy the code to run see the functionality. 
